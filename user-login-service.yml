@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sc-user-login
+  labels:
+    name: sc-user-login
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: sc-user-login
+  template:
+    metadata:
+      name: sc-user-login
+      labels:
+        name: sc-user-login
+    spec:
+      containers:
+        - name: sc-user-login
+          image: jdimasw/sc-user-login
+          ports:
+            - containerPort: 3001
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: sc-user-login-service
+spec:
+  type: NodePort
+  selector:
+    name: sc-user-login
+  ports:
+    - port: 3001
+      targetPort: 3001
+      nodePort: 30001
